@@ -173,10 +173,46 @@ public class Controller
 						as = jaj.dequeue().darCodInfeaccion();
 					}
 					view.printMessage(codigo+"   | "+c);
+					c=0;
 				}
 				break;
 
 			case 9:			
+				view.printMessage("");
+				view.printMessage("Ingrese la cantidad de frecuencias que quiere ver");
+				int fre = lector.nextInt();
+				view.printMessage("Ingrese la fecha inicial en frmato Año/Mes/Día");
+				String loci = lector.next();
+				DateFormat formatloci = new SimpleDateFormat("yyyy/MM/dd");
+				Date dateloci = formatloci.parse(loci);
+				view.printMessage("Ingrese la fecha final en frmato Año/Mes/Día");
+				String pit = lector.next();
+				DateFormat formatpit = new SimpleDateFormat("yyyy/MM/dd");
+				Date datepit = formatpit.parse(pit);
+				view.printMessage("");
+				view.printMessage("");
+				view.printMessage("Ranking de las "+ fre+ " mayores infracciones del "+ loci +" al " +pit);
+				view.printMessage("Infracción    | # Comparendos "); 
+				Queue<Comparendo> ji = modelo.dosParteC(dateloci, datepit);
+				Queue<String> codigos = new Queue<String>();
+				Queue<Integer> numeros = new Queue<Integer>();
+				String codigo1 = "";
+				int ca = 0;
+				while(ji.isEmpty()==false)
+				{
+					codigo1 = ji.dequeue().darCodInfeaccion();
+					String as = codigo1;
+					while(as.equalsIgnoreCase(codigo1))
+					{
+						ca++;
+						as = ji.dequeue().darCodInfeaccion();
+					}
+					codigos.enqueue(codigo1);
+					numeros.enqueue(ca);
+					ca=0;
+				}
+				
+				
 
 				break;
 
