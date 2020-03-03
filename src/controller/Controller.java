@@ -1,5 +1,9 @@
 package controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import model.data_structures.Comparendo;
@@ -29,7 +33,7 @@ public class Controller
 		modelo = new Modelo();
 	}
 
-	public void run() 
+	public void run() throws ParseException 
 	{
 		Scanner lector = new Scanner(System.in);
 		boolean fin = false;
@@ -49,7 +53,7 @@ public class Controller
 			{
 			case 1:
 				view.printMessage("Los datos fueron leidos satisfactoriamente");
-				view.printMessage("  La cantidad de comparendos que fueron leidos es: " + modelo.darTamLista());
+				view.printMessage("  La cantidad de comparendos que fueron leidos es: " + modelo.darTamCola());
 				view.printMessage("");
 				view.printMessage("El comparendo con mayor OBJECTID encontrado es:");
 				view.printMessage(modelo.darMayorObjectId().darInformacion());
@@ -58,9 +62,125 @@ public class Controller
 				view.printMessage("La mayor longitud: "+ modelo.darMayLongitud() + " La mayor latitud: "+ modelo.darMayLatitud()+"\nLa menor longitud: "+ modelo.darMinLongitud() + "  La menor latitud: " +modelo.darMinLatitud());
 				view.printMessage("");
 				view.printMessage("");
+				view.printMessage(modelo.unoParteA("BOSA").darInformacion());
 				break;
 
-			case 2:			
+			case 2:
+				view.printMessage("");
+				view.printMessage("Ingrese la localidad");
+				String a = lector.next();
+				if(modelo.unoParteA(a) != null)
+				{
+					view.printMessage("El primer comparendo por Localidad es:");
+					view.printMessage(modelo.unoParteA(a).darInformacion());
+				}
+				else
+				{
+					view.printMessage("No se encontro ningun comparendo con esa localidad.");
+				}
+				view.printMessage("");
+				view.printMessage("");
+				break;
+
+			case 3:			
+				view.printMessage("");
+				view.printMessage("Ingrese la fecha en el formato Año/Mes/Día");
+				String da = lector.next();
+				DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+				Date date = format.parse(da);
+				view.printMessage("");
+				int numero1 = modelo.dosParteA(date).getSize();
+				Queue<Comparendo> el = modelo.dosParteA(date);
+				view.printMessage("El numero de comparendos de la consulta es: "+ numero1+" y la informacion de cada uno es la siguiente:");
+				view.printMessage("");
+				for(int i = 0; i<numero1; i++)
+				{
+					view.printMessage(el.dequeue().darInformacion());
+				}
+				break;
+
+			case 4:			
+				view.printMessage("");
+				view.printMessage("Ingrese la fecha numero 1 en el formato Año/Mes/Día");
+				String un1 = lector.next();
+				DateFormat format1 = new SimpleDateFormat("yyyy/MM/dd");
+				Date date11 = format1.parse(un1);
+				view.printMessage("");
+				view.printMessage("Ingrese la fecha numero 2 en el formato Año/Mes/Día");
+				String un2 = lector.next();
+				DateFormat format2 = new SimpleDateFormat("yyyy/MM/dd");
+				Date date21 = format2.parse(un2);
+
+				view.parteA3(date11, date21);
+				break;
+			case 5:			
+				view.printMessage("");
+				view.printMessage("Ingrese la infraccion");
+				String b = lector.next();
+				if(modelo.unoParteB(b) != null)
+				{
+					view.printMessage("El primer comparendo por infraccion es:");
+					view.printMessage(modelo.unoParteB(b).darInformacion());
+				}
+				view.printMessage("");
+				view.printMessage("");
+				break;
+
+			case 6:			
+				view.printMessage("");
+				view.printMessage("Ingrese la infraccion");
+				String per = lector.next();
+				view.printMessage("");
+				int numero2 = modelo.dosParteB(per).getSize();
+				Queue<Comparendo> al = modelo.dosParteB(per);
+				view.printMessage("El numero de comparendos de la consulta es: "+ numero2+" y la informacion de cada uno es la siguiente:");
+				view.printMessage("");
+				for(int i = 0; i<numero2; i++)
+				{
+					view.printMessage(al.dequeue().darInformacion());
+				}
+				break;
+
+			case 7:			
+
+				break;
+
+			case 8:			
+				view.printMessage("");
+				view.printMessage("Ingrese la localidad");
+				String ind = lector.next();
+				view.printMessage("Ingrese la fecha inicial en frmato Año/Mes/Día");
+				String ul = lector.next();
+				DateFormat formatal = new SimpleDateFormat("yyyy/MM/dd");
+				Date dateal = formatal.parse(ul);
+				view.printMessage("Ingrese la fecha final en frmato Año/Mes/Día");
+				String ol = lector.next();
+				DateFormat formatol = new SimpleDateFormat("yyyy/MM/dd");
+				Date dateol = formatol.parse(ol);
+				view.printMessage("");
+				view.printMessage("Comparación de comparendos en "+ind+" del " +ul+" al "+ol);
+				view.printMessage("Infracción    | # Comparendos ");
+				Queue<Comparendo> jaj = modelo.unoParteC(ind, dateal, dateol);
+				String codigo = "";
+				int c = 0;
+				while(jaj.isEmpty()==false)
+				{
+					codigo = jaj.dequeue().darCodInfeaccion();
+					String as = codigo;
+					while(as.equalsIgnoreCase(codigo))
+					{
+						c++;
+						as = jaj.dequeue().darCodInfeaccion();
+					}
+					view.printMessage(codigo+"   | "+c);
+				}
+				break;
+
+			case 9:			
+
+				break;
+
+			case 0:			
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;

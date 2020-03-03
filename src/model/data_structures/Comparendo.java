@@ -3,7 +3,7 @@ package model.data_structures;
 
 import java.util.Date;
 
-public class Comparendo {
+public class Comparendo implements Comparable<Comparendo>{
 	private int objectId;
 	private Date fecha_hora;
 	private String des_infrac;
@@ -49,6 +49,16 @@ public class Comparendo {
 	{
 		return latitud;
 	}
+	
+	public String darLocalidad()
+	{
+		return localidad;
+	}
+	
+	public Date darFecha()
+	{
+		return fecha_hora;
+	}
 
 	//	OBJECTID, FECHA_HORA, INFRACCION, CLASE_VEHI, TIPO_SERVI, LOCALIDAD
 	public String darInformacion()
@@ -63,6 +73,12 @@ public class Comparendo {
 				+ ", MEDIO_DETE=" + medio_dete + ", CLASE_VEHI=" + clase_vehi + ", TIPO_SERVI=" + tipo_servi
 				+ ", INFRACCION=" + infraccion + ", LOCALIDAD=" + localidad + ", latitud=" + latitud + ", longitud="
 				+ longitud + "]";
+	}
+
+	@Override
+	public int compareTo(Comparendo arg0) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
